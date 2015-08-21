@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--Created with Liquid XML Studio 6.1.18.0 - FREE Community Edition (http://www.liquid-technologies.com)-->
+<!-- edited with XMLSpy v2006 rel. 3 sp2 (http://www.altova.com) by f (f) -->
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.dictao.com/d3s/xsd/v2010_10/Common" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:enc="http://www.w3.org/2001/04/xmlenc#" targetNamespace="http://www.dictao.com/d3s/xsd/v2010_10/Common" elementFormDefault="qualified">
+  <import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="./xmldsig-core-schema.xsd"/>
+  <import namespace="http://www.w3.org/2001/04/xmlenc#" schemaLocation="./xenc-schema.xsd"/>
+	<!-- Elements definitions -->
+  <element name="securityToken" type="tns:SAMLToken" />
+  <element name="depositProof" type="tns:DepositProofType" />
+  <element name="certificates" type="tns:Certificates" />
+  <element name="metadatas" type="tns:Metadatas" />
+  <element name="safebox" type="tns:Safebox" />
+  <element name="orgunit" type="tns:Orgunit" />
+  <element name="user" type="tns:User" />
+  <element name="deposit" type="tns:Deposit" />
+  <element name="certificate" type="tns:Certificate" />
+  <element name="authorizations" type="tns:Authorizations" />
+  <!-- Types definitions -->
+  <simpleType name="Path">
+    <restriction base="string" />
+  </simpleType>
+  <!-- Status for responses -->
+  <complexType name="ValidationStatus">
+    <sequence>
+      <element name="code" type="tns:ValidationStatusCode" />
+      <element name="message" type="string" minOccurs="0"/>
+      <element name="detail" type="tns:StatusDetail" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="HashComparisonStatus">
+    <sequence>
+      <element name="code" type="tns:HashComparisonStatusCode" />
+      <element name="message" type="string" minOccurs="0"/>
+      <element name="detail" type="tns:StatusDetail" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="StatusDetail">
+    <sequence>
+      <any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+    </sequence>
+  </complexType>
+  <simpleType name="ValidationStatusCode">
+    <restriction base="string">
+      <enumeration value="DP_VALID_SIGNATURE" />
+      <enumeration value="DP_SIGNATURE_COULD_NOT_BE_VERIFIED" />
+      <enumeration value="DP_VALIDATION_OPERATION_DISABLED" />
+    </restriction>
+  </simpleType>
+  <simpleType name="HashComparisonStatusCode">
+    <restriction base="string">
+      <enumeration value="HASH_COMPARAISON_OK" />
+      <enumeration value="HASH_COMPARAISON_NOK" />
+      <enumeration value="HASH_COMPARAISON_CANCELED" />
+    </restriction>
+  </simpleType>
+  <!-- Exceptions -->
+  <simpleType name="EnvironmentFaultCodeType">
+    <restriction base="string">
+      <enumeration value="D3S_ENV_AUTH_TOKEN" />
+      <enumeration value="D3S_ENV_CONFIGURATION" />
+      <enumeration value="D3S_ENV_DATABASE" />
+      <enumeration value="D3S_ENV_DXS" />
+      <enumeration value="D3S_ENV_FILE" />
+      <enumeration value="D3S_ENV_INTERNAL_ERROR" />
+      <enumeration value="D3S_ENV_MAIL" />
+      <enumeration value="D3S_ENV_MEMORY" />
+      <enumeration value="D3S_ENV_NETWORK" />
+      <enumeration value="D3S_ENV_NOTIFICATION" />
+      <enumeration value="D3S_ENV_SHUTTING_DOWN"/>
+      <enumeration value="D3S_ENV_AUHTORITY"/>
+      <enumeration value="D3S_ENV_RETRY_LATER"/>
+    </restriction>
+  </simpleType>
+  <complexType name="EnvironmentFaultInfo">
+    <sequence>
+      <element name="code" type="tns:EnvironmentFaultCodeType" nillable="false"/>
+    </sequence>
+  </complexType>
+  <simpleType name="UserFaultCodeType">
+    <restriction base="string">
+      <enumeration value="D3S_USER_APPROBATION_NEEDED" />
+      <enumeration value="D3S_USER_APPROBATION_ALREADY_REQUESTED" />
+      <enumeration value="D3S_USER_APPROBATION_ALREADY_GIVEN_BY_APPROVER" />
+      <enumeration value="D3S_USER_USER_CAN_NOT_APPROVE_HIMSELF" />
+      <enumeration value="D3S_USER_BOX_NOT_EMPTY" />
+      <enumeration value="D3S_USER_ACTION_FORBIDEN_BY_DEPOSIT_STATUS" />
+      <enumeration value="D3S_USER_ACTION_FORBIDEN_BY_BOX_STATUS" />
+      <enumeration value="D3S_USER_GROUP_STILL_LINKED_TO_BOXES" />
+      <enumeration value="D3S_USER_WRONG_OWNERSHIP" />
+      <enumeration value="D3S_USER_INCOMPATIBLE_ROLES" />
+      <enumeration value="D3S_USER_BOX_QUOTA_EXCEEDED" />
+      <enumeration value="D3S_USER_BOX_HISTORIC_SIZE_EXCEEDED" />
+      <enumeration value="D3S_USER_URG_ASSOC_ALREADY_EXISTS" />
+      <enumeration value="D3S_USER_INVALID_BOX_TYPE" />
+      <enumeration value="D3S_USER_EDITABLE_CONSTRAINT_VIOLATION" />
+      <enumeration value="D3S_USER_INVALID_PARAMETER" />
+      <enumeration value="D3S_USER_MISSING_PARAMETER" />
+      <enumeration value="D3S_USER_INVALID_X509_CERTIFICATE" />
+      <enumeration value="D3S_USER_USER_PASSWORD_NOT_MATCHING" />
+      <enumeration value="D3S_USER_INVALID_USER_PASSWORD" />
+      <enumeration value="D3S_USER_INVALID_SECURITY_TOKEN" />
+      <enumeration value="D3S_USER_MISSING_PRIVILEGE" />
+      <enumeration value="D3S_USER_DEPOSIT_NOT_FOUND" />
+      <enumeration value="D3S_USER_IMPORT_ARCHIVE_INVALID" />
+      <enumeration value="D3S_USER_IMPORT_DUPLICATE_MISMATCH" />
+      <enumeration value="D3S_USER_IMPORT_DUPLICATE_RECLASSIFIED" />
+      <enumeration value="D3S_USER_IMPORT_TARGET_FILING_PLAN_INVALID" />
+      <enumeration value="D3S_USER_IMPORT_TARGET_SAFEBOX_INVALID" />
+      <enumeration value="D3S_USER_INVALID_DEPOSIT_PROOF" />
+    </restriction>
+  </simpleType>
+  <complexType name="UserFaultInfo">
+    <sequence>
+      <element name="code" type="tns:UserFaultCodeType" nillable="false"/>
+    </sequence>
+  </complexType>
+  <!-- Security token -->
+  <complexType name="SAMLToken">
+    <simpleContent>
+      <extension base="base64Binary" />
+    </simpleContent>
+  </complexType>
+    <!-- Authorization -->
+    <complexType name="Authorizations">
+        <sequence>
+            <element name="Authorization" maxOccurs="unbounded">
+                <complexType>
+                    <sequence>
+                        <element name="groupPath" type="tns:Path"/>
+                        <element name="rolePath" type="tns:Path"/>
+                    </sequence>
+                </complexType>
+            </element>
+        </sequence>
+    </complexType>
+    
+  <!-- Deposit Proof -->
+  <complexType name="DepositProof">
+    <simpleContent>
+      <extension base="base64Binary" />
+    </simpleContent>
+  </complexType>
+  <complexType name="DepositProofType">
+    <sequence>
+      <element name="DepositMetadatas" type="tns:DepositMetadatas" />
+      <element name="EncryptedDatas" type="tns:EncryptedDatas" />
+      <element name="EncryptedKeys" type="tns:EncryptedKeys" />
+      <element ref="ds:Manifest" />
+      <element ref="ds:Signature" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="DepositMetadatas">
+    <sequence>
+      <element name="DepositGuid" type="string" />
+      <element name="DepositVersion" type="long" />
+      <element name="Metadatas" type="tns:Metadatas" />
+    </sequence>
+    <attribute name="Id" type="string" />
+  </complexType>
+  <complexType name="EncryptedKeys">
+    <sequence>
+      <element ref="enc:EncryptedKey" maxOccurs="unbounded"/>
+    </sequence>
+  </complexType>
+  <complexType name="EncryptedDatas">
+    <sequence>
+      <element ref="enc:EncryptedData" maxOccurs="unbounded"/>
+    </sequence>
+  </complexType>
+  <!-- Certificates list -->
+  <complexType name="Certificates">
+    <simpleContent>
+      <extension base="base64Binary" />
+    </simpleContent>
+  </complexType>
+  <!-- Metadata list -->
+  <complexType name="Metadatas">
+    <sequence>
+      <element name="metadata" type="tns:Metadata" minOccurs="0" maxOccurs="unbounded"/>
+    </sequence>
+  </complexType>
+  <complexType name="Metadata">
+    <sequence>
+      <element name="value" type="tns:Value" />
+    </sequence>
+    <attribute name="name" type="string" use="required" />
+    <attribute name="type" type="tns:MetadataValueType" use="required" />
+  </complexType>
+  <complexType name="Value">
+    <choice>
+      <element name="StringValue" type="string" />
+      <element name="DateValue" type="dateTime" />
+      <element name="LongValue" type="long" />
+      <element name="BinaryValue" type="base64Binary" />
+      <element name="IDRefValue" type="IDREF" />
+      <element name="BooleanValue" type="boolean" />
+    </choice>
+  </complexType>
+  <complexType name="DataRef">
+    <sequence>
+        <element name="guid" type="string" minOccurs="1" maxOccurs="1"/>
+        <element name="name" type="string" minOccurs="1" maxOccurs="1"/>
+    </sequence>
+  </complexType>
+  <simpleType name="MetadataValueType">
+    <restriction base="string">
+      <enumeration value="STRING_TYPE" />
+      <enumeration value="DATE_TYPE" />
+      <enumeration value="LONG_TYPE" />
+      <enumeration value="BINARY_TYPE" />
+      <enumeration value="IDREF_TYPE" />
+      <enumeration value="BOOLEAN_TYPE" />
+    </restriction>
+  </simpleType>
+  <!-- Search utility type -->
+  <complexType name="OrderBy">
+    <attribute name="field" type="string" use="required" />
+    <attribute name="descending" type="boolean" default="false"/>
+  </complexType>
+  <complexType name="Criterion">
+    <sequence>
+      <element name="value" type="tns:Value" />
+    </sequence>
+    <attribute name="field" type="string" use="required" />
+    <attribute name="operator" type="tns:CriterionOperatorType" use="required" />
+  </complexType>
+  <!-- Entities types -->
+  <complexType name="Safebox">
+    <sequence>
+            <element name="ID" type="string" minOccurs="0"/>
+            <element name="name" type="string" minOccurs="0"/>
+            <element name="description" type="string" minOccurs="0"/>
+            <element name="cipherMode" type="tns:CipherMode" minOccurs="0"/>
+            <element name="contentMimeType" type="tns:MimeType" minOccurs="0"/>
+            <element name="mimeType" type="tns:MimeType" minOccurs="0"/>
+            <element name="creationDate" type="dateTime" minOccurs="0"/>
+            <element name="updateDate" type="dateTime" minOccurs="0"/>
+            <element name="depositGracePeriod" type="long" minOccurs="0"/>
+            <element name="depositRetentionPeriod" type="long" minOccurs="0"/>
+            <element name="depositHistoricSize" type="long" minOccurs="0"/>
+            <element name="depositCreationAccessPermissions" type="tns:AccessPermissions" minOccurs="0"/>
+            <element name="approbationsNumber" type="long" minOccurs="0"/>
+            <element name="signaturePolicy" type="string" minOccurs="0"/>
+            <element name="traceLifeTime" type="long" minOccurs="0"/>
+            <element name="accessPermissions" type="tns:AccessPermissions" minOccurs="0"/>
+            <element name="indexInfo" type="tns:IndexMapping" minOccurs="0"/>
+            <element name="filingPlanPath" type="tns:Path" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="Orgunit">
+    <sequence>
+            <element name="ID" type="string" minOccurs="0"/>
+            <element name="name" type="string" minOccurs="0"/>
+            <element name="description" type="string" minOccurs="0"/>
+            <element name="creationDate" type="dateTime" minOccurs="0"/>
+            <element name="updateDate" type="dateTime" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="User">
+    <sequence>
+            <element name="ID" type="string" minOccurs="0"/>
+            <element name="identifier" type="string" minOccurs="0"/>
+            <element name="name" type="string" minOccurs="0"/>
+            <element name="description" type="string" minOccurs="0"/>
+            <element name="email" type="string" minOccurs="0"/>
+            <element name="wsUrl" type="anyURI" minOccurs="0"/>
+            <element name="authenticationMode" type="tns:AuthenticationMode" minOccurs="0"/>
+            <element name="password" type="string" minOccurs="0"/>
+            <element name="x509Certificate" type="base64Binary" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="Deposit">
+    <sequence>
+            <element name="ID" type="string" minOccurs="0"/>
+            <element name="creationDate" type="dateTime" minOccurs="0"/>
+            <element name="discardDate" type="dateTime" minOccurs="0"/>
+            <element name="expirationDate" type="dateTime" minOccurs="0"/>
+            <element name="depositProof" type="tns:DepositProof" minOccurs="0"/>
+            <element name="isDeleted" type="boolean" minOccurs="0"/>
+            <element name="hasBeenRead" type="boolean" minOccurs="0"/>
+            <element name="accessPermissions" type="tns:AccessPermissions" minOccurs="0"/>
+            <element name="metadatas" type="tns:Metadatas" minOccurs="0"/>
+            <element name="encryptedKeys" type="tns:EncryptedKeys" minOccurs="0"/>
+            <element name="encryptedDatas" type="tns:EncryptedDatas" minOccurs="0"/>
+            <element name="manifest" type="ds:ManifestType" minOccurs="0"/>
+            <element name="filesSourcePath" type="tns:FileSourcePathList" minOccurs="0"/>
+            <element name="validationStatus" type="tns:ValidationStatus" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="Certificate">
+    <sequence>
+            <element name="ID" type="string" minOccurs="0"/>
+            <element name="name" type="string" minOccurs="0"/>
+            <element name="description" type="string" minOccurs="0"/>
+            <element name="type" type="tns:CertificateType" minOccurs="0"/>
+            <element name="x509Certificate" type="base64Binary" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="AccessPermissions">
+    <sequence>
+            <element name="readable" type="boolean" minOccurs="0"/>
+            <element name="updatable" type="boolean" minOccurs="0"/>
+            <element name="deletable" type="boolean" minOccurs="0"/>
+            <element name="contentCreatable" type="boolean" minOccurs="0"/>
+            <element name="contentUpdatable" type="boolean" minOccurs="0"/>
+            <element name="contentDeletable" type="boolean" minOccurs="0"/>
+            <element name="contentReadable" type="boolean" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="IndexMapping">
+    <sequence>
+            <element name="activationStatus" type="boolean" minOccurs="0"/>
+            <element name="indexName" type="string" minOccurs="0"/>
+            <element name="indexesToMerge" type="string" minOccurs="0" maxOccurs="unbounded"/>
+            <element name="removeAfterMerge" type="boolean" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="FileSourcePathList">
+    <sequence>
+            <element name="fileSourcePath" type="tns:FileSourcePath" maxOccurs="unbounded"/>
+    </sequence>
+  </complexType>
+  <complexType name="FileSourcePath">
+    <sequence>
+      <element name="value" type="string" />
+    </sequence>
+    <attribute name="key" type="string" use="required" />
+  </complexType>
+  <!-- Simple types -->
+  <simpleType name="CipherMode">
+    <restriction base="string">
+      <enumeration value="CERTLIST" />
+    </restriction>
+  </simpleType>
+  <simpleType name="CriterionOperatorType">
+    <restriction base="string">
+      <enumeration value="EQUALS" />
+      <enumeration value="NOT_EQUALS" />
+      <enumeration value="SUPERIOR" />
+      <enumeration value="INFERIOR" />
+      <enumeration value="IN" />
+      <enumeration value="CONTAINS" />
+    </restriction>
+  </simpleType>
+  <simpleType name="MimeType">
+    <restriction base="string">
+      <enumeration value="STRONGBOX" />
+      <enumeration value="LOCKER" />
+      <enumeration value="SAFEBOX" />
+      <enumeration value="DEPOSIT" />
+    </restriction>
+  </simpleType>
+  <simpleType name="AuthenticationMode">
+    <restriction base="string">
+      <enumeration value="D3SAuthCert" />
+      <enumeration value="D3SAuthPwd" />
+    </restriction>
+  </simpleType>
+  <simpleType name="CertificateType">
+    <restriction base="string">
+      <enumeration value="SEQUESTER" />
+      <enumeration value="CIPHER" />
+    </restriction>
+  </simpleType>
+</schema>
